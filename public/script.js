@@ -1,6 +1,6 @@
 var canvas = document.getElementById('myCanvas');
 
-var io = io.connect('http://localhost:3000')
+var io = io.connect('')
 
 var ctx = canvas.getContext('2d');
 let x;
