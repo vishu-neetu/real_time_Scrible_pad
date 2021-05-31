@@ -5,18 +5,22 @@ const io = require("socket.io")(httpServer);
 
 let connections = [];
 
+
+// connection established
 io.on('connect', (socket)=> {
     connections.push(socket);
     console.log(`${socket.id} has connected`);
-
+    // console.log(connections);
+    // event draw when connection is on
     socket.on('draw', (data)=>{
         connections.forEach((con) => {
             if(con.id !== socket.id){
-                con.emit('ondraw', {x: data.x,y: data.y})
+                con.emit('ondraw', {x: data.x,y: data.y,c :data.c})
             }
         });
     })
 
+    // event down when connection is on
     socket.on('down', (data)=>{
         connections.forEach((con)=>{
             if(con.id !== socket.id){
@@ -25,8 +29,10 @@ io.on('connect', (socket)=> {
         })
     })
 
+    // when socket connection gets disconnected
     socket.on('disconnect', (reason) => {
         console.log(`${socket.id} got disconnected`)
+        // console.log(connections);
         connections = connections.filter((con)=> con.id !== socket.id); 
     });
 });
